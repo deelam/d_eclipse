@@ -1,11 +1,5 @@
-# docker build -t jdk8eclipse:groovy .
-# docker tag jdk8eclipse:groovy deelam/eclipse:groovy
-
 # Ubuntu 15.10, with jdk8 and Eclipse Mars with Groovy plugin
 # based on https://hub.docker.com/r/leesah/eclipse/~/dockerfile/
-
-# WebUI: http://linoxide.com/linux-how-to/setup-dockerui-web-interface-docker/
-#  docker run -d -p 9000:9000 --privileged -v /var/run/docker.sock:/var/run/docker.sock dockerui/dockerui
 
 FROM ubuntu:15.10 
 

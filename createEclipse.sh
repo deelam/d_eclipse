@@ -9,6 +9,6 @@ docker run -ti -e DISPLAY=$DISPLAY \
  -v ~/dev:/home/dd/dev \
  -v ~/dev/marsWorkspace:/home/dd/workspace \
  "$@" \
- --name user2 \
- jdk8eclipse:user2
+ --name eclipseContainer \
+ myEclipse
 

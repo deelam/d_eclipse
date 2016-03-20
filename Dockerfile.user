@@ -1,12 +1,6 @@
-# 
-# OPTIONAL: 
-# * docker run -ti -e DISPLAY=$DISPLAY  -v /tmp/.X11-unix:/tmp/.X11-unix --name jdk8eclipsegroovy jdk8eclipse:lombok
-# * docker commit jdk8eclipsegroovy jdk8eclipse:groovy
 #
-# docker build -t jdk8eclipse:user2 -f Dockerfile.user .
-# docker tag jdk8eclipse:user2 deelam/eclipse:user
 
-FROM jdk8eclipse:groovy
+FROM d_eclipse:latest
 
 ENV A_USER=dd
 ENV USERID=33747
