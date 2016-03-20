@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- this file belongs at workspace/.metadata/.plugins/org.eclipse.m2e.core/lifecycle-mapping-metadata.xml  -->
+<lifecycleMappingMetadata>
+  <pluginExecutions>
+    <pluginExecution>
+      <pluginExecutionFilter>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <versionRange>1.9.1</versionRange>
+        <goals>
+          <goal>timestamp-property</goal>
+        </goals>
+      </pluginExecutionFilter>
+      <action>
+        <ignore />
+      </action>
+    </pluginExecution>
+    <pluginExecution>
+      <pluginExecutionFilter>
+        <groupId>net.alchim31.maven</groupId>
+        <artifactId>scala-maven-plugin</artifactId>
+        <versionRange>3.1.6</versionRange>
+        <goals>
+          <goal>testCompile</goal>
+          <goal>compile</goal>
+          <goal>add-source</goal>
+        </goals>
+      </pluginExecutionFilter>
+      <action>
+        <ignore />
+      </action>
+    </pluginExecution>
+    <pluginExecution>
+      <pluginExecutionFilter>
+        <groupId>org.codehaus.gmavenplus</groupId>
+        <artifactId>gmavenplus-plugin</artifactId>
+        <versionRange>1.2</versionRange>
+        <goals>
+          <goal>testCompile</goal>
+          <goal>removeTestStubs</goal>
+          <goal>compile</goal>
+          <goal>removeStubs</goal>
+          <goal>addTestSources</goal>
+          <goal>generateStubs</goal>
+          <goal>addSources</goal>
+          <goal>testGenerateStubs</goal>
+        </goals>
+      </pluginExecutionFilter>
+      <action>
+        <ignore />
+      </action>
+    </pluginExecution>
+  </pluginExecutions>
+</lifecycleMappingMetadata>
