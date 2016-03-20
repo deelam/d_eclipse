@@ -1,4 +1,4 @@
-# dockers
+# d_eclipse  (Docker Eclipse)
 
 Ubuntu 15.10, with jdk8 and Eclipse Mars with Groovy plugin based on https://hub.docker.com/r/leesah/eclipse/
 
