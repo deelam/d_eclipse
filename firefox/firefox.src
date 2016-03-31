@@ -3,7 +3,7 @@
 firefox(){
 	del_stopped firefox
 
-	docker run -d \
+	exec docker run -d \
 		--memory 2gb \
 		--net host \
 		--cpuset-cpus 0 \

@@ -1,0 +1,17 @@
+#
+
+FROM ${ORIG_IMAGE}
+
+# add matching user with sudo priviledge
+RUN adduser --disabled-password --quiet --gecos '' --ingroup users -u "${HOST_USERID}" "${HOST_USERNAME}" \
+ && if [ "${ENABLE_SUDO}" ]; then echo "${HOST_USERNAME} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/user \
+ && chmod 0440 /etc/sudoers.d/user \
+ && chown root:root /usr/bin/sudo && chmod 4755 /usr/bin/sudo; fi
+
+${APPENDED_ACTIONS}
+
+
+USER ${HOST_USERNAME}
+WORKDIR /home/${HOST_USERNAME}
+
+
