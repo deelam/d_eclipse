@@ -1,0 +1,15 @@
+#FROM python:3.5-slim
+FROM python:3.5
+#FROM python:2.7.11
+
+MAINTAINER dnaelam@gmail.com
+
+ENV CORPORA brown
+
+RUN apt-get update \
+ && apt-get install -y build-essential python3-dev liblapack-dev libatlas-dev gfortran openjdk-7-jre \
+ && pip install --upgrade pip \
+ && pip install -U iepy \
+ && apt-get --purge autoremove -y \
+ && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
