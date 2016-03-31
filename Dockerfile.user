@@ -1,6 +1,6 @@
 #
 
-FROM d_eclipse:latest
+FROM d_eclipse:isuper3
 
 ENV A_USER=dd
 ENV USERID=33747
