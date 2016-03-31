@@ -4,7 +4,7 @@
 #FROM ubuntu:15.10 
 FROM phusion/baseimage:latest
 
-MAINTAINER dnaelam@gmail.com
+MAINTAINER deelam
 
 ENV ECLIPSE_DOWNLOAD=http://download.eclipse.org/technology/epp/downloads/release/mars/2/eclipse-java-mars-2-linux-gtk-x86_64.tar.gz 
 ENV MAVEN_DOWNLOAD=http://apache.osuosl.org/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.tar.gz

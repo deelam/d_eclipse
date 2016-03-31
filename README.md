@@ -1,26 +1,5 @@
-# d_eclipse  (Docker Eclipse)
-
-Ubuntu 15.10, with jdk8 and Eclipse Mars with Groovy plugin based on https://hub.docker.com/r/leesah/eclipse/
-
-Example usage:
-```
-docker pull d_eclipse:latest
-# download and modify Dockerfile.user to match your userid and optionally any desired username
-docker build -t myeclipse -f Dockerfile.user .
-
-xhost +localhost
-# assuming username=dd, run the following:
-docker run -ti -e DISPLAY=$DISPLAY \
- -v /tmp/.X11-unix:/tmp/.X11-unix \
- -v ~/.m2:/home/dd/.m2 \
- -v ~/dev:/home/dd/dev \
- -v ~/dev/marsWorkspace:/home/dd/workspace \
- "$@" \
- --name eclipseContainer \
- myeclipse
-
-docker start -ai  eclipseContainer
-```
+# My dockerfiles
+See several docker apps under the "Tags" tab.
 
 # Tips
 * WebUI (http://linoxide.com/linux-how-to/setup-dockerui-web-interface-docker)
@@ -40,3 +19,9 @@ domain <yourDomain>
 nameserver 192.168.11.1
 nameserver <yourVPNsDNS>
 ```
+
+# Resources and references
+* http://dockerfile.github.io/ https://github.com/dockerfile
+* https://github.com/jfrazelle/dockerfiles
+
+
