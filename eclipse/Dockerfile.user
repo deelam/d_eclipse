@@ -8,10 +8,7 @@ ENV USERID=33747
 RUN adduser --disabled-password --quiet --gecos '' --ingroup users -u $USERID $A_USER \
  && echo "$A_USER ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/user \
  && chmod 0440 /etc/sudoers.d/user \
- && chown root:root /usr/bin/sudo && chmod 4755 /usr/bin/sudo \
- && chmod -R 775 /usr/local/eclipse && chgrp -R users /usr/local/eclipse
-
-COPY lifecycle-mapping-metadata.xml /home/$A_USER
+ && chown root:root /usr/bin/sudo && chmod 4755 /usr/bin/sudo
 
 USER $A_USER
 WORKDIR /home/$A_USER
