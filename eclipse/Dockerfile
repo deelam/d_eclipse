@@ -59,7 +59,6 @@ RUN update-alternatives --install "/usr/bin/java" "java" "${JAVA_HOME}/bin/java"
 
 
 RUN curl "$ECLIPSE_DOWNLOAD" | tar vxz -C /usr/local \
- && chmod -R 775 /usr/local/eclipse \
  && ln -s /usr/local/eclipse/eclipse /usr/local/bin/ \
 \
  && /usr/local/eclipse/eclipse -nosplash -application org.eclipse.equinox.p2.director -repository http://dist.springsource.org/snapshot/GRECLIPSE/e4.5/ -installIU org.codehaus.groovy.eclipse.feature.feature.group \
@@ -67,11 +66,13 @@ RUN curl "$ECLIPSE_DOWNLOAD" | tar vxz -C /usr/local \
  && curl https://projectlombok.org/downloads/lombok.jar > lombok.jar \
  && /usr/bin/java -jar lombok.jar install auto \
  && chown root:users /usr/local/eclipse/lombok.jar \
- && chmod 775        /usr/local/eclipse/lombok.jar \
+ && chmod -R 775 /usr/local/eclipse && chgrp -R users /usr/local/eclipse \
 \
  && mkdir -p /usr/share/maven \
  && curl -fsSL "$MAVEN_DOWNLOAD" | tar -xzC /usr/share/maven --strip-components=1 \
  && ln -s /usr/share/maven/bin/mvn /usr/bin/mvn
+
+COPY lifecycle-mapping-metadata.xml /usr/local/eclipse
 
 ENV MAVEN_HOME /usr/share/maven
 

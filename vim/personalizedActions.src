@@ -1,0 +1,5 @@
+# These variables are used to replace variables in Dockerfile.user.tmpl
+PREPENDED_ACTIONS="USER root"
+APPENDED_ACTIONS=""
+USER_ACTIONS=""
+

@@ -1,6 +1,8 @@
-#
+# Template for running images as your user
 
-FROM ${ORIG_IMAGE}
+FROM ${FROM_IMAGE}
+
+${PREPENDED_ACTIONS}
 
 # add matching user with sudo priviledge
 RUN adduser --disabled-password --quiet --gecos '' --ingroup users -u "${HOST_USERID}" "${HOST_USERNAME}" \
@@ -10,8 +12,8 @@ RUN adduser --disabled-password --quiet --gecos '' --ingroup users -u "${HOST_US
 
 ${APPENDED_ACTIONS}
 
-
 USER ${HOST_USERNAME}
 WORKDIR /home/${HOST_USERNAME}
 
+${USER_ACTIONS}
 
