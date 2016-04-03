@@ -78,4 +78,5 @@ ENV MAVEN_HOME /usr/share/maven
 
 # Use baseimage-docker's init system.
 # CMD ["/sbin/my_init"]
+CMD ["eclipse"]
 

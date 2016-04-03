@@ -1,0 +1,16 @@
+#
+
+# container's home directory that will be populated by application
+CONT_USERHOME="$HOME/docker/firefoxHome"
+
+PRERUN_CMDS="[ -d $CONT_USERHOME ] || mkdir -pv $CONT_USERHOME || exit 10"
+
+RUN_MODE=gui
+
+DK_RUN_ARGS=" --rm \
+ -v $CONT_USERHOME:/home/`id -u -n` \
+"
+# TODO: fix time in container
+# -v /etc/localtime:/etc/localtime:ro \
+# -v /etc/timezone:/etc/timezone:ro \
+

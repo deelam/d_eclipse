@@ -1,4 +1,4 @@
-FROM dockerfile:mysql
+FROM mysql
 
 MAINTAINER deelam
 

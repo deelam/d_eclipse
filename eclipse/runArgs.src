@@ -1,0 +1,15 @@
+#
+
+RUN_MODE=gui
+
+PRERUN_CMDS="[ -d $CONT_USERHOME ] || mkdir -pv $CONT_USERHOME || exit 10"
+
+HOST_USER=`id -u -n` 
+
+DK_RUN_ARGS=" \
+ -v $HOME/.m2:/home/$HOST_USER/.m2 \
+ -v $HOME/dev:/home/$HOST_USER/dev \
+ -v $HOME/dev/marsWorkspace:/home/$HOST_USER/workspace \
+" 
+
+

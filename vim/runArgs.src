@@ -1,0 +1,5 @@
+# These variables are used when running an image
+	RUN_MODE="console"
+	PRERUN_CMDS=""
+	DK_RUN_ARGS=""
+	

@@ -1,4 +1,5 @@
-FROM jess/firefox
+#FROM jess/firefox
+FROM devurandom/firefox
 
 MAINTAINER deelam
 

@@ -1,4 +1,4 @@
-FROM dockerfile:ruby
+FROM ruby
 
 MAINTAINER deelam
 
