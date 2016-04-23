@@ -42,7 +42,8 @@ createMyDockerfile(){
 		. "$DK_HOME/$APPNAME/personalizedActions.src"
 	else
 		echo "TODO: retrieve $APPNAME/personalizedActions.src"
-		echo "# These variables are used to replace variables in Dockerfile.user.tmpl
+		echo "# These variables are used to replace variables in DOCKER_TEMPLATE
+	DOCKER_TEMPLATE=Dockerfile.user.tmpl
 	PREPENDED_ACTIONS=\"\"
 	APPENDED_ACTIONS=\"\"
 	USER_ACTIONS=\"\"
@@ -55,7 +56,7 @@ createMyDockerfile(){
 		echo "File already exists: $DOCKERFILE  ---   Move existing file and rerun."
 	else
 		echo "Creating file: $DOCKERFILE   ---  Modify this to your hearts content."
-		replaceCurlyBaredVariables < $DK_HOME/Dockerfile.user.tmpl > "$DOCKERFILE"
+		replaceCurlyBaredVariables < $DK_HOME/$DOCKER_TEMPLATE > "$DOCKERFILE"
 	fi
 }
 
@@ -66,29 +67,36 @@ buildMyImage(){
 	HOST_USERID=`id -u`
 	HOST_USERNAME=`id -n -u`
 	DOCKERFILE="$DK_HOME/$APPNAME/Dockerfile.$HOST_USERNAME.$HOST_USERID"
+
+	if ! [ -f "$DOCKERFILE" ]; then
+		createBaseImage $APPNAME
+		createMyDockerfile $APPNAME
+	fi
+
 	echo Executing: docker build -t personalized/$APPNAME -f "$DOCKERFILE" $DK_HOME/$APPNAME
 	docker build -t personalized/$APPNAME -f "$DOCKERFILE" $DK_HOME/$APPNAME
 }
 
 runMyImage(){
 	APPNAME="${1%%/*}"
-	[ "$APPNAME" ] || { echo "Usage: runMyImage <appname> [runmode] [containername]"; exit 1; }
-	CONTNAME="${3:-$APPNAME-instance}"
+	[ "$APPNAME" ] || { echo "Usage: runMyImage <appname> [containername [runmode] ] "; exit 1; }
+	CONTNAME="${2:-$APPNAME-instance}"
 
-	if [ -e "$DK_HOME/$APPNAME/runArgs.src" ]; then
-		. "$DK_HOME/$APPNAME/runArgs.src"
+	: ${RUN_ARGS_FILE:=runArgs.src}
+	if [ -e "$DK_HOME/$APPNAME/$RUN_ARGS_FILE" ]; then
+		. "$DK_HOME/$APPNAME/$RUN_ARGS_FILE"
 	else
-		echo "Creating: $DK_HOME/$APPNAME/runArgs.src"
+		echo "Creating: $DK_HOME/$APPNAME/$RUN_ARGS_FILE"
 		echo "# These variables are used when running an image
 	RUN_MODE=\"\"
 	PRERUN_CMDS=\"\"
 	DK_RUN_ARGS=\"\"
-	" > "$DK_HOME/$APPNAME/runArgs.src"
+	" > "$DK_HOME/$APPNAME/$RUN_ARGS_FILE"
 	fi
-	: ${RUN_MODE:=$2}
+	: ${RUN_MODE:=$3}
 	: ${AUTO_RESUME:="true"}
 
-	if [ "$AUTO_RESUME" ] && container_exists "$CONTNAME"; then
+	if [ "$AUTO_RESUME" == "true" ] && container_exists "$CONTNAME"; then
 		echo "Found existing container $CONTNAME ... Resuming"
 		resumeContainer "$CONTNAME" $RUN_MODE
 		return 
@@ -143,7 +151,7 @@ resumeContainer(){
 
 [ "$1" ] || { echo "
 Usage: $0 <init|build> <appname>
-       $0 run <appname> [bash|console|gui] [containername]
+       $0 [run] <appname> [bash|console|gui] [containername]
        $0 restart <appname|containername>
   Default containername=appname-instance
 "; exit 1; }

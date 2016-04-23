@@ -55,6 +55,12 @@ DHOST_GROUPID=`id -g`
 ```
 * If `/scripts/entry.sh` doesn't exist (because the `/scripts` volume wasn't mounted or the `entry.sh` file wasn't created), then the container will run as root.
 
+
+# To run another instances of an image
+
+`> RUN_ARGS_FILE=runArgs2.src ./imager.sh firefox firefox-instance2`
+
+
 # Tips
 * http://www.projectatomic.io/docs/docker-image-author-guidance/
 * http://crosbymichael.com/dockerfile-best-practices.html

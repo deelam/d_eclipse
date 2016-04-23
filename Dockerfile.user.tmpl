@@ -6,7 +6,11 @@ ${PREPENDED_ACTIONS}
 
 # add matching user with sudo priviledge
 RUN adduser --disabled-password --quiet --gecos '' --ingroup users -u "${HOST_USERID}" "${HOST_USERNAME}" \
- && if [ "${ENABLE_SUDO}" ]; then echo "${HOST_USERNAME} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/user \
+ && if [ "${ENABLE_SUDO}" ]; then \
+ if ! which sudo; then \
+   apt-get update && apt-get -y install sudo && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*; \
+ fi \
+ && echo "${HOST_USERNAME} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/user \
  && chmod 0440 /etc/sudoers.d/user \
  && chown root:root /usr/bin/sudo && chmod 4755 /usr/bin/sudo; fi
 
