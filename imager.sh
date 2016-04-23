@@ -88,13 +88,15 @@ runMyImage(){
 	else
 		echo "Creating: $DK_HOME/$APPNAME/$RUN_ARGS_FILE"
 		echo "# These variables are used when running an image
-	RUN_MODE=\"\"
+	RUN_MODE=\"bash\"
 	PRERUN_CMDS=\"\"
 	DK_RUN_ARGS=\"\"
 	" > "$DK_HOME/$APPNAME/$RUN_ARGS_FILE"
 	fi
 	: ${RUN_MODE:=$3}
 	: ${AUTO_RESUME:="true"}
+	: ${USE_LOCALTIME:="true"}
+	: ${USE_PULSEAUDIO:="true"}
 
 	if [ "$AUTO_RESUME" == "true" ] && container_exists "$CONTNAME"; then
 		echo "Found existing container $CONTNAME ... Resuming"
@@ -102,19 +104,29 @@ runMyImage(){
 		return 
 	fi
 
+   if [ "$USE_LOCALTIME" == "true" ]; then
+		DK_RUN_ARGS="$DK_RUN_ARGS -v /etc/localtime:/etc/localtime:ro"
+# -v /etc/timezone:/etc/timezone:ro  # empty directory in RHEL
+	fi
+
+   if [ "$USE_PULSEAUDIO" == "true" ]; then
+		DK_RUN_ARGS="$DK_RUN_ARGS \
+        --env PULSE_SERVER=unix:/tmp/pulse-unix \
+		  --volume /run/user/$UID/pulse/native:/tmp/pulse-unix \
+		"
+	fi
+
 	set -v
+	eval $PRERUN_CMDS
 	case "$RUN_MODE" in
 		bash)	exec docker run --name "$CONTNAME" -ti $DK_RUN_ARGS \
 				personalized/$APPNAME bash ;;
 		console)	exec docker run --name "$CONTNAME" -ti $DK_RUN_ARGS \
 				personalized/$APPNAME ;;
 		gui)	xhost +local:
-			eval $PRERUN_CMDS
 			eval exec docker run --name "$CONTNAME" $DK_RUN_ARGS \
 				--env DISPLAY="$DISPLAY" \
 				--volume /tmp/.X11-unix:/tmp/.X11-unix \
-				--env PULSE_SERVER="unix:/tmp/pulse-unix" \
-				--volume /run/user/$UID/pulse/native:/tmp/pulse-unix \
 				personalized/$APPNAME ;;
 		*) echo "Unspecified RUN_MODE=$RUN_MODE" ;;
 	esac
@@ -150,9 +162,10 @@ resumeContainer(){
 }
 
 [ "$1" ] || { echo "
-Usage: $0 <init|build> <appname>
-       $0 [run] <appname> [bash|console|gui] [containername]
-       $0 restart <appname|containername>
+Usage: $0 <init|build> <appname>                   (only need to do this once to create docker image)
+       $0 <appname>                                (use to start and resume)
+       $0 [run] <appname> [bash|console|gui] [containername]   (for testing)
+       $0 resume <appname|containername>           (not needed since AUTO_RESUME=true by default)
   Default containername=appname-instance
 "; exit 1; }
 CMD=$1
@@ -160,7 +173,7 @@ shift
 case "$CMD" in
   init) createBaseImage $1 && createMyDockerfile $1 ;;
   build) buildMyImage $1 ;;
-  restart) resumeContainer $1 ;;
+  resume) resumeContainer $1 ;;
   run) runMyImage $1 $2 $3 ;;
   *) runMyImage $CMD $1 $2 $3 ;;
 esac
